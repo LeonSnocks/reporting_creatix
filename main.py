@@ -24,6 +24,10 @@ bq_client = bigquery.Client(credentials=creds, project=GCP_PROJECT_ID)
 
 # === HELPER FUNKTIONEN ===
 
+def my_function(request):
+        main()
+        return "Function executed."
+
 def test_bigquery_permissions():
     try:
         dataset = bq_client.get_dataset(BQ_DATASET)
@@ -142,8 +146,9 @@ def main():
     insert_images_into_bigquery(all_images)
 
     def my_function(request):
+        print("🚀 Funktion manuell getriggert.")
         main()
-        return "Function executed."
+        return "✅ Ausführung abgeschlossen.", 200
 
 if __name__ == "__main__":
     main()
