@@ -1,12 +1,11 @@
 import os
-from google.oauth2 import service_account
+from google.auth import default
 from googleapiclient.discovery import build
 from google.cloud import bigquery
 from datetime import datetime
 from google.cloud import storage
 
 # === CONFIG ===
-SERVICE_ACCOUNT_FILE = "service_account.json"
 ROOT_FOLDER_ID = "1Hw_tKL6qx1d7I0MUnFgfS6TqWO7dvu-d"
 IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp']
 GCP_PROJECT_ID = "snocks-analytics"  # <--- Ersetzen
@@ -15,10 +14,11 @@ BQ_TABLE = "creatix_images"                 # <--- Ersetzen
 IMAGE_VALUE_EUR = 30
 
 # === AUTH ===
-creds = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE,
-    scopes=['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/cloud-platform']
-)
+# Holt die default credentials aus der Cloud Functions Umgebung
+creds, _ = default(scopes=[
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/cloud-platform'
+])
 drive_service = build('drive', 'v3', credentials=creds)
 bq_client = bigquery.Client(credentials=creds, project=GCP_PROJECT_ID)
 
@@ -36,8 +36,6 @@ def test_bigquery_permissions():
     except Exception as e:
         print("❌ Kein Zugriff auf Dataset:", e)
 
-# Call in main:
-
 def get_last_id_from_bigquery():
     query = f"""
         SELECT MAX(id) as last_id
@@ -47,7 +45,6 @@ def get_last_id_from_bigquery():
     result = query_job.result()
     row = next(result, None)
     return row.last_id if row and row.last_id is not None else 0
-
 
 def list_folders(parent_id):
     folders = []
@@ -121,6 +118,7 @@ def insert_images_into_bigquery(image_list):
         print(f"❌ Fehler beim Einfügen in BigQuery: {errors}")
     else:
         print(f"✅ {len(rows_to_insert)} Einträge erfolgreich in BigQuery eingefügt.")
+
 # === MAIN ===
 
 def main():
