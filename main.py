@@ -3,6 +3,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from google.cloud import bigquery
 from datetime import datetime
+from google.cloud import storage
 
 # === CONFIG ===
 SERVICE_ACCOUNT_FILE = "service_account.json"
@@ -22,6 +23,11 @@ drive_service = build('drive', 'v3', credentials=creds)
 bq_client = bigquery.Client(credentials=creds, project=GCP_PROJECT_ID)
 
 # === HELPER FUNKTIONEN ===
+
+def my_function(request):
+    client = storage.Client()  # Uses Cloud Function's identity automatically
+    buckets = list(client.list_buckets())
+    return f"Found {len(buckets)} buckets"
 
 def test_bigquery_permissions():
     try:
