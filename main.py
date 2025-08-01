@@ -145,10 +145,10 @@ def main():
 
     insert_images_into_bigquery(all_images)
 
-    def my_function(request):
-        print("🚀 Funktion manuell getriggert.")
-        main()
-        return "✅ Ausführung abgeschlossen.", 200
+def my_function(request):
+    print("🚀 Funktion manuell getriggert.")
+    main()
+    return "✅ Ausführung abgeschlossen.", 200
 
 if __name__ == "__main__":
     main()
