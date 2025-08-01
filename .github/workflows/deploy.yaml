@@ -28,4 +28,5 @@ jobs:
           --trigger-http \
           --entry-point my_function \
           --region europe-west3 \
-          --allow-unauthenticated
+          --allow-unauthenticated \
+          --no-gen2
