@@ -26,5 +26,5 @@ jobs:
           --runtime python310 \
           --trigger-http \
           --entry-point my_function \
-          --region europe-west1 \
+          --region europe-west3 \
           --allow-unauthenticated
