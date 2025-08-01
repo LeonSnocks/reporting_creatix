@@ -24,11 +24,6 @@ bq_client = bigquery.Client(credentials=creds, project=GCP_PROJECT_ID)
 
 # === HELPER FUNKTIONEN ===
 
-def my_function(request):
-    client = storage.Client()  # Uses Cloud Function's identity automatically
-    buckets = list(client.list_buckets())
-    return f"Found {len(buckets)} buckets"
-
 def test_bigquery_permissions():
     try:
         dataset = bq_client.get_dataset(BQ_DATASET)
@@ -145,6 +140,10 @@ def main():
     print(f"💰 Gesamtwert: {len(all_images) * IMAGE_VALUE_EUR} Euro")
 
     insert_images_into_bigquery(all_images)
+
+    def my_function(request):
+        main()
+        return "Function executed."
 
 if __name__ == "__main__":
     main()
