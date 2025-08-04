@@ -30,3 +30,4 @@ jobs:
           --region europe-west3 \
           --allow-unauthenticated \
           --no-gen2 \
+          --service-account scalemaker@make-com-464110.iam.gserviceaccount.com
