@@ -97,6 +97,10 @@ def get_images_from_favoriten_folders(results_folder_id):
     return image_list
 
 def insert_images_into_bigquery(image_list):
+    if not image_list:
+        print("⚠️ Keine Bilder zum Einfügen vorhanden – überspringe Insert.")
+        return
+
     table_id = f"{GCP_PROJECT_ID}.{BQ_DATASET}.{BQ_TABLE}"
     timestamp = datetime.utcnow().isoformat()
     
@@ -111,6 +115,10 @@ def insert_images_into_bigquery(image_list):
         }
         for i, image in enumerate(image_list)
     ]
+
+    if not rows_to_insert:
+        print("⚠️ rows_to_insert ist leer – Insert übersprungen.")
+        return
 
     errors = bq_client.insert_rows_json(table_id, rows_to_insert)
     if errors:
