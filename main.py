@@ -3,14 +3,14 @@ from google.auth import default
 from googleapiclient.discovery import build
 from google.cloud import bigquery
 from datetime import datetime
-from google.cloud import storage
+
 
 # === CONFIG ===
 ROOT_FOLDER_ID = "1Hw_tKL6qx1d7I0MUnFgfS6TqWO7dvu-d"
 IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp']
-GCP_PROJECT_ID = "snocks-analytics"  # <--- Ersetzen
-BQ_DATASET = "input_automation_euw3"         # <--- Ersetzen
-BQ_TABLE = "creatix_images"                 # <--- Ersetzen
+GCP_PROJECT_ID = "snocks-analytics"
+BQ_DATASET = "input_automation_euw3"
+BQ_TABLE = "creatix_images"
 IMAGE_VALUE_EUR = 30
 
 # === AUTH ===
