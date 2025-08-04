@@ -15,18 +15,10 @@ IMAGE_VALUE_EUR = 30
 
 # === AUTH ===
 # Holt die default credentials aus der Cloud Functions Umgebung
-from google.oauth2 import service_account
-import json
-import os
-
-# Gilt auch in der Cloud Function, da du über GitHub mit JSON deployst
-creds = service_account.Credentials.from_service_account_info(
-    json.loads(os.environ["GCP_SA_KEY"]),
-    scopes=[
-        "https://www.googleapis.com/auth/drive",
-        "https://www.googleapis.com/auth/cloud-platform"
-    ]
-)
+creds, _ = default(scopes=[
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/cloud-platform'
+])
 drive_service = build('drive', 'v3', credentials=creds)
 bq_client = bigquery.Client(credentials=creds, project=GCP_PROJECT_ID)
 
