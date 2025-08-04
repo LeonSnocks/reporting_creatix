@@ -30,4 +30,3 @@ jobs:
           --region europe-west3 \
           --allow-unauthenticated \
           --no-gen2 \
-          --set-env-vars "GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}"s
